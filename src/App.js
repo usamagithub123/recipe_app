@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import { fetchRecipes, fetchRecipesById } from "./utils/api";
+import Loader from "./components/Loader/Loader";
+import Header from "./components/Header/Header";
+import RecipeList from "./components/RecipeList/RecipeList";
 
 function App() {
+  const [recipes, setRecipes]=useState([])
+  const [loading ,setloading]=useState(false)
+  const [searchQuery,setSearchQuery]=useState("")
+    
+  useEffect(()=>{
+    const fetchRecipesData= async()=>{
+      try{
+        const data = await fetchRecipes()      
+        setRecipes(data)
+        setloading(false)
+      }
+      catch{
+        setloading(false)
+      }    
+    }
+    fetchRecipesData()
+  },[])
+
+  const filteredRecipe=recipes.filter(rec=>rec.title.toLowerCase().includes(searchQuery.toLowerCase()))
+  const recipesToDisplay=searchQuery ? filteredRecipe : recipes 
+ 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header title={"Recipe App"} setSearchQuery={setSearchQuery}/>
+   
+
+     {loading ? <Loader name={'recipes is loading'}/> :  <RecipeList recipes={recipesToDisplay}/>}
+    
     </div>
   );
 }

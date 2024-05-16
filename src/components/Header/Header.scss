@@ -1,0 +1,39 @@
+.header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 14px;
+    //background-color: rgb(245, 231, 231);
+
+    .title{
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 6px;
+    }
+    .rightSection{
+        display: flex;
+        gap:20px;
+        align-items: flex-start;
+
+        .close{
+            border: none;
+            background: red;
+            padding: 10px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+    }
+
+}
+
+@media (min-width:760px){
+    .header{
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .title{
+        margin-bottom: 0;
+    }
+}
